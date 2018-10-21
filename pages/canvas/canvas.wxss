@@ -1,0 +1,365 @@
+page {
+	background: #fff;
+  /* background: url('https://hdg.faisys.com/image/xydzp/homeBg.jpg') top center no-repeat;
+  width: 100%; */
+  height: 100%;
+}
+
+.header{
+	padding: 1rem 0;
+	text-align: center;
+}
+.header-title{
+	display: block;
+	padding: .4rem 0;
+	font-size: 2rem;
+}
+.header-subtitle{
+	color: #999;
+}
+
+
+
+/* 转盘 */
+.canvas-container ul,
+.canvas-container li{
+  margin: 0 ;
+  padding: 0;
+  list-style: none;
+}
+
+.canvas-container{
+  margin: 0 auto;
+  position: relative;
+  width: 300px;
+  height: 300px;  
+  border-radius: 50%;
+  /*border: 2px solid #E44025;*/
+  box-shadow: 0 2px 3px #333,
+              0 0 2px #000;
+}
+.canvas-content{
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: block;
+  width: 300px;
+  height: 300px;
+  border-radius: inherit;
+  background-clip: padding-box;
+  background-color: #ffcb3f;
+}
+.canvas-element{
+  position: relative;
+  z-index: 1;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+}
+.canvas-list{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: inherit;
+  height: inherit;
+  z-index: 9999;
+}
+.canvas-item{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: #e4370e;
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgba(255,255,255,.6);
+}
+.canvas-item-text{
+  position: relative;
+  display: block;
+  padding-top: 20px;
+  /* width: 50px; */
+  margin: 0 auto;
+  text-align: center; 
+  -webkit-transform-origin: 50% 150px; 
+  transform-origin: 50% 150px;
+}
+.bgImg {
+  position:relative;
+  display:block;
+  padding-top:10rpx;
+  margin:0 auto;
+  text-align:center;
+  width: 80rpx;
+  height: 80rpx;
+  transform-origin:50% 260rpx;
+}
+/* 分隔线 */
+.canvas-line{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: inherit;
+  height: inherit;
+  z-index: 99;
+}
+.canvas-litem{
+  position: absolute;
+   left: 150px;
+   top: 0;
+   width: 1px;
+   height: 150px;
+   background-color: rgba(228,55,14,.4);
+   overflow: hidden; 
+   -webkit-transform-origin: 50% 150px; 
+   transform-origin: 50% 150px;
+}
+
+
+.canvas-btn{
+  position: absolute;
+  left: 110px;
+  top: 110px;
+  z-index: 400;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  color: #F4E9CC;
+  background-color: #E44025;
+  line-height: 80px;
+  text-align: center;
+  font-size: 20px;
+  text-shadow: 0 -1px 1px rgba(0,0,0,.6);
+  box-shadow: 0 3px 5px rgba(0,0,0,.6);
+  text-decoration: none;
+}
+.canvas-btn::after{
+  position: absolute;
+  display: block;
+  content: ' ';
+  left: 10px;
+  top: -46px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  border-width: 30px;
+  border-style: solid;
+  border-color: transparent;
+  border-bottom-color: #E44025; 
+}
+.canvas-btn.disabled{
+    pointer-events: none;
+    background: #B07A7B;
+    color: #ccc;
+}
+.canvas-btn.disabled::after{
+  border-bottom-color: #B07A7B;
+}
+
+
+.gb-run{ 
+    -webkit-transition: all 6s ease;
+    transition: all 6s ease;
+}
+
+
+/* 查看中奖 */
+.main-container{
+	margin: 1rem 2rem;
+}
+
+.main-container-rule{
+	padding: 1rem 0;
+}
+.main-rule-title{
+	display: block;
+	padding: 4px 0;
+	font-size: 16px;
+	font-weight: bold;
+}
+.main-rule-item{
+	display: block;
+	padding: 2px 0;
+}
+
+.show-btn {
+  margin-top: 100rpx;
+  color: #22cc22;
+}
+
+
+
+.modal-dialog {
+  width: 540rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 9999;
+  background: #f9f9f9;
+  margin: -300rpx 105rpx;
+  border-radius: 36rpx;
+}
+
+.modal-title {
+  padding-top: 50rpx;
+  font-size: 36rpx;
+  color: #030303;
+  text-align: center;
+}
+
+.modal-content {
+  padding: 50rpx 32rpx;
+}
+
+.modal-input {
+  display: flex;
+  background: #fff;
+  border: 2rpx solid #ddd;
+  border-radius: 4rpx;
+  font-size: 28rpx;
+}
+
+
+.input {
+  width: 100%;
+  height: 82rpx;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  color: #333;
+}
+
+input-holder {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  height: 86rpx;
+  border-top: 1px solid #dedede;
+  font-size: 34rpx;
+  line-height: 86rpx;
+}
+
+.btn-cancel {
+  width: 50%;
+  color: #666;
+  text-align: center;
+  border-right: 1px solid #dedede;
+}
+
+.btn-confirm {
+  width: 50%;
+  color: #ec5300;
+  text-align: center;
+}
+@keyframes rotate {
+  from { -webkit-transform:rotate(180deg); } 
+  to { -webkit-transform:rotate(0deg); } 
+}
+@-webkit-keyframes rotate { 
+  from { -webkit-transform:rotate(180deg); } 
+  to { -webkit-transform:rotate(0deg); } 
+}
+.turnBg {
+  position:absolute;
+  width: 346px;
+  height: 346px;
+  left: -22px;
+  top: -22px;
+  animation: rotate 7s linear both reverse infinite
+}
+.btns {
+  justify-content: center
+}
+.btns .btn {
+  background: #fe8c2d;
+  border-radius: 10rpx;
+  color: #fff;
+  font-size: 32rpx;
+  padding: 10rpx 20rpx;
+}
+.btns .btn + .btn {
+  margin-left: 80rpx;
+}
+.noresult {
+ position: absolute; 
+ width: 570rpx; 
+ height: 710rpx; 
+ top: 140rpx; 
+ left: 50%; 
+ margin-left: -285rpx;
+ float: none; 
+ z-index: 100; 
+}
+.iknow {
+  width:280rpx;
+  top:660rpx;
+  position:absolute;
+  z-index:500;
+  left:50%;
+  margin-left:-140rpx;
+  background:rgb(253, 168, 47);
+  color:#fff;
+  border:4rpx solid #fff;
+
+}
+.detailBtn {
+  width:280rpx;
+  background:rgb(253, 168, 47);
+  color:#fff;
+  border:4rpx solid #fff;
+}
+
+.result {
+  border:4rpx dotted #fff;
+  border-radius:8rpx;
+  padding:40rpx 10rpx;
+  background:rgb(254, 103, 95);
+
+}
+.result .prizeItem {
+  margin-bottom: 10rpx;
+  font-size: 32rpx;
+  display: flex;
+  padding: 10rpx 20rpx;
+  justify-content: space-between
+}
+.result .detail {
+  color: #fff000
+}
+.result .prizeItem:not(:last-child) {
+  border-bottom: 2rpx solid rgba(255,255,255,.4)
+}
+.rules {
+  white-space: pre;
+word-wrap: break-word;
+font-size: 28rpx;
+}
+.ok {
+  left:50%;
+  width: 600rpx;
+  height: 830rpx;
+  margin-left:-300rpx;
+  top: 0
+}
+.prizeDetail {
+  z-index:1500;
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-top:-80rpx;
+}
+.prizeImg {
+  width: 214rpx;
+  height: 270rpx;
+}
+.prizeDesc {
+  font-size:36rpx;
+margin:30rpx auto;
+}

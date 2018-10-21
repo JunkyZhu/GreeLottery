@@ -1,0 +1,98 @@
+<view style="background: url('http://hehaibao.github.io/lottery2/img/lottery_bg.jpg') center center no-repeat; width: 100%;height: 100%;background-size:cover;overflow-x:hidden">
+  <view class="wrapper" style="">
+    <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}" bindtap='close'></view>
+    <view class="modal-dialog" wx:if="{{showModal}}">
+      <view class="modal-title">录入信息</view>
+      <view class="modal-content">
+        <view class="modal-input">
+          <input placeholder-class="input-holder" type="number" maxlength="10" bindinput="inputInvoice" focus='true' class="input" placeholder="请输入抽奖码"></input>
+        </view>
+        <view class="modal-input" style='margin-top: 10rpx'>
+          <input placeholder-class="input-holder" type="number" maxlength="11" bindinput="inputTel" class="input" placeholder="请输入预留手机号"></input>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+        <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
+      </view>
+    </view>
+    <view class="header">
+      <image src="//hdg.faisys.com/image/xydzp/title.png" style='width:350rpx;height: 136rpx;margin-bottom: 40rpx;'></image>
+    </view>
+
+    <view class="main">
+      <view class="canvas-container">
+        <image class='turnBg' src="https://hdg.faisys.com/image/xydzp/rotatePan.png" style=''></image>
+        <view animation="{{animationData}}" class="canvas-content">
+          <canvas style="width: 300px; height: 300px;" class="canvas-element" canvas-id="lotteryCanvas"></canvas>
+
+          <view class="canvas-line">
+            <view class="canvas-litem" wx:for="{{awardsList}}" wx:key="unique" style="-webkit-transform: rotate({{item.lineTurn}});transform: rotate({{item.lineTurn}})"></view>
+          </view>
+
+          <view class="canvas-list">
+            <view class="canvas-item" style='' wx:for="{{awardsList}}" wx:key="unique">
+
+              <view class="canvas-item-text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})">{{item.award}}</view>
+              <!-- <image class="bgImg" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4088560319,3173946946&fm=58"></image> -->
+            </view>
+          </view>
+
+
+        </view>
+
+        <view bindtap="showModal" class="canvas-btn {{btnDisabled}}">抽奖</view>
+      </view>
+
+
+    </view>
+
+  </view>
+  <view class="btns" style='display:flex;margin-top: 80rpx;'>
+    <view class='btn' bindtap="showPrize">我的中奖纪录</view>
+    <view class='btn' bindtap="showRules">活动规则</view>
+  </view>
+  <view class='modal-mask' wx:if="{{showLose}}"  bindtap='close'>
+    <button class="iknow">我知道了</button>
+    <image class='noresult' src="https://hdg.faisys.com/image/xydzp/xydzpFailImg.png"></image>
+  </view>
+  <view class='modal-mask' wx:if="{{showSuccess}}">
+
+    <view class='center prizeDetail' style='z-index: 1500'>
+      <image class="prizeImg " src="https://hdg.faisys.com/image/xydzp/theGift.png?v=201802231034"></image>
+      <text class='prizeDesc'>一等奖： 微波炉</text>
+      <button class="detailBtn" bindtap="godetail">查看详情</button>
+    </view>
+
+    <image class='noresult ok' src="https://hdg.faisys.com/image/xydzp/successBgImg.png"></image>
+  </view>
+  <view class='modal-mask' wx:if="{{showPrize}}" bindtap='close'>
+    <view class='center result' catchtap='catch'>
+      <image style="width: 660rpx; height: 90rpx;margin-bottom: 20rpx;" src="https://hdg.faisys.com/image/xydzp/myAwardImg.png">
+
+      </image>
+      <view class="prizeItem">
+        <text>一等奖: 一个微波炉你懂的</text>
+        <text class="detail" bindtap="godetail">查看详情</text>
+      </view>
+      <view class="prizeItem">
+        <text>一等奖: 一个微波炉你懂的</text>
+        <text class="detail" bindtap="godetail">查看详情</text>
+      </view>
+    </view>
+  </view>
+  <view class='modal-mask' wx:if="{{showRules}}" bindtap='close'>
+    <view class='center result' catchtap='catch'>
+      <image style="width: 660rpx; height: 90rpx;margin-bottom: 20rpx;" src="https://hdg.faisys.com/image/xydzp/activeRuleImg.png">
+
+      </image>
+      <text class="rules"> 
+        1.活动奖品： 
+          123123
+          546456
+        2. 活动简介： 
+          时5啊打发
+      </text>
+    </view>
+  </view>
+</view>

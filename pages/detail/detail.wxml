@@ -1,0 +1,43 @@
+<!--pages/detail.wxml-->
+<view>
+	<view class="header">
+		<view class="title">格力空调一个</view>
+		<view class="expired">兑奖期限：2018.10.21 - 2018.10.28</view>
+		<text class="setAddr">填写寄送地址</text>
+    <image class='bg' src="../../image/kqbd.png"></image>
+	</view>
+	<view class="code">
+		<view>兑奖码：8888888 <text bindtap="copy" class="copy">复制券码</text></view>
+		<view class="tips">凭兑奖码联系工作人员兑奖</view>
+	</view>
+	<view class="line"></view>
+	<view class="detail">
+		<view class="cardDetail">兑奖券详情</view>
+		<view>
+			<view class="item">
+				<view class="label">有效日期</view>
+				<view>2018-10-21至2018-10-28</view>
+			</view>
+			<view class="item">
+				<view class="label">姓名</view>
+				<view>xxxxxx</view>
+			</view>
+			<view class="item">
+				<view class="label">收货地址</view>
+				<view>上海市闵行区啥啥啥地方啥啥啥7号楼五楼</view>
+			</view>			
+		</view>
+	</view>
+	<view class="line"></view>
+	<view class="btn">
+		<button class="btnDetail" bindtap="getCode">立即兑奖</button>
+	</view>
+  <view class='modal-mask' wx:if="{{showResult}}" bindtap='close'>
+    <view class='center result' catchtap='catch'>
+      <view>请联系核销员扫码核销</view>
+      <image style='width: 360rpx;height:360rpx;' src="http://hd.faisco.cn/manage/qrCode.jsp?cmd=qrurl&siteUrl=888888"></image>
+      <view style='margin-top: 20rpx'>37917505</view>
+      <view>凭券联系现场工作人员兑奖</view>
+    </view>
+  </view>
+</view>

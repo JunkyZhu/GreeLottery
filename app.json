@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/canvas/canvas",
+    "pages/logs/logs",
+    "pages/authorize/index",
+    "pages/detail/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "oWong",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#ffffff"
+  }
+}
