@@ -49,7 +49,7 @@
 
   </view>
   <view class="btns" style='display:flex;margin-top: 80rpx;'>
-    <view class='btn' bindtap="showPrize">我的中奖纪录</view>
+    <view class='btn' bindtap="showPrize">中奖纪录</view>
     <view class='btn' bindtap="showRules">活动规则</view>
   </view>
   <view class='modal-mask' wx:if="{{showLose}}"  bindtap='close'>
