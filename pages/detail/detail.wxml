@@ -35,7 +35,7 @@
   <view class='modal-mask' wx:if="{{showResult}}" bindtap='close'>
     <view class='center result' catchtap='catch'>
       <view>请联系核销员扫码核销</view>
-      <image style='width: 360rpx;height:360rpx;' src="http://hd.faisco.cn/manage/qrCode.jsp?cmd=qrurl&siteUrl=888888"></image>
+      <image style='width: 360rpx;height:360rpx;' src="http://qr.liantu.com/api.php?text={{detail.text}}"></image>
       <view style='margin-top: 20rpx'>37917505</view>
       <view>凭券联系现场工作人员兑奖</view>
     </view>

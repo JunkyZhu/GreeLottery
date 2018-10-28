@@ -1,20 +1,4 @@
-// "tabBar": {
-//   "color": "#666",
-//     "selectedColor": "#3cc51f",
-//       "backgroundColor": "#eee",
-//         "borderStyle": "white",
-//           "list": [{
-//             "pagePath": "pages/canvas/canvas",
-//             "text": "去抽奖",
-//             "iconPath": "image/icon.png",
-//             "selectedIconPath": "image/icon-HL.png"
-//           }, {
-//             "pagePath": "pages/list/list",
-//             "text": "中奖记录",
-//             "iconPath": "image/icon.png",
-//             "selectedIconPath": "image/icon-HL.png"
-//           }]
-// }
+import {request} from './utils/util.js'
 //app.js
 App({
   onLaunch: function () {
@@ -22,10 +6,35 @@ App({
     const that = this
     that.isAuthed()
     let token = wx.getStorageSync('token');
-    if (!token) {
-      that.goLoginPageTimeOut()
-      return
-    }
+  },
+  getToken(cb) {
+    const that = this
+    wx.login({
+      success(res) {
+        if (res.code) {
+          debugger
+          request({
+            url: '/wechat_users/login',
+            method: 'Get',
+            urlData: {
+              code: res.code,
+              type: 1
+            }
+          }).then(val => {
+            if (val.data.token) {
+              that.setToken(val.data.token)
+            }
+            cb && cb(val.data.token)
+          })
+        }
+      }
+    })
+  },
+  hasToken() {
+    return wx.getStorageSync('token')
+  },
+  setToken(data) {
+    wx.setStorageSync('token', data)
   },
   goLoginPageTimeOut: function () {
     setTimeout(function () {
@@ -67,6 +76,7 @@ App({
     userInfo:null,
     awardsConfig: {},
     runDegs: 0,
-    hasAuth: false
+    hasAuth: false,
+    baseURL: 'http://116.62.214.34:8080'
   }
 })

@@ -78,12 +78,18 @@ page {
 .canvas-item-text{
   position: relative;
   display: block;
-  padding-top: 20px;
+  padding-top: 10px;
   /* width: 50px; */
   margin: 0 auto;
   text-align: center; 
   -webkit-transform-origin: 50% 140px; 
   transform-origin: 50% 140px;
+}
+.canvas-item-text.text {
+  -webkit-transform-origin: 50% 100px; 
+  transform-origin: 50% 100px;
+  padding-top: 0;
+  font-size: 24rpx
 }
 .bgImg {
   position:relative;

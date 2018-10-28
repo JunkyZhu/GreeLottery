@@ -1,3 +1,5 @@
+import {request} from '../../utils/util.js'
+import { getActivities, getAwardsList, draw} from '../../services/activity.js'
 var app = getApp()
 Page({
   data: {
@@ -11,7 +13,9 @@ Page({
     showPrize: false,
     showRules: false,
     showLose: false,
-    showSuccess: false
+    showSuccess: false,
+    obj: {},
+    awards: []
   },
   onShareAppMessage() {
     return {
@@ -19,13 +23,43 @@ Page({
       path: 'pages/canvas/canvas'
     }
   },
+  getAwards() {
+    getAwardsList().then(val => {
+      this.setData({
+        awards: val
+      })
+    })
+  },
+  getInfo() {
+    console.log(app.hasToken())
+    if(!app.hasToken()) {
+      app.getToken(this.getActivity)
+      
+    }else {
+      this.getActivity()
+    }
+  },
+  getActivity(id) {
+    getActivities({ activityId: id}).then(val => {
+      this.setData({
+        obj: val
+      })
+      wx.setNavigationBarTitle({
+        title: this.data.obj.remark + this.data.obj.name
+      })
+      this.setCanvasData(this.data.obj.prizeVos)
+      this.getAwards(this.data.obj.id)
+    })
+  },
   close() {
     this.setData({
       showModal: false,
       showPrize: false,
       showRules: false,
       showLose: false,
-      showSuccess: false
+      showSuccess: false,
+      invoice: '',
+      tel: '',
     })
   },
   showPrize() {
@@ -53,48 +87,47 @@ Page({
       tel: e.detail.value
     })
   },
-  getUserInfo(e) {
-    console.log(e.detail.errMsg)
-    console.log(e.detail.userInfo)
-    console.log(e.detail.rawData)
-    // const that = this
-    // wx.getSetting({
-    //   success(res) {
-    //     if(!res.authSetting['scope.userInfo']) {
-    //       wx.authorize({
-    //         scope: 'scope.userInfo',
-    //         success() {
-    //           cosnole.log(arguments)
-    //         }
-    //       })
-    //     }
-    //   }
-    // })
-  },
   showModal() {
     this.setData({
       showModal: true
     })
   },
   onCancel() {
-    this.setData({
-      showModal: false
-    })
+    this.close()
   },
   onConfirm(e) {
-    this.setData({
-      showModal: false
+    if (this.data.invoice == ''){
+      wx.showToast({
+        title: '请输入发票号',
+        icon: 'none',
+        duration: 1000
+      })
+    } else if (this.data.tel == '') {
+      wx.showToast({
+        title: '请输入手机号',
+        icon: 'none',
+        duration: 1000
+      })
+    } else{
+      this.draw()
+    }
+  },
+  draw() {
+    draw(this.data.obj.id, {
+      code: this.data.invoice,
+      mobile: this.data.tel
+    }).then(val => {
+      this.close()
+      this.getLottery()
     })
-    this.getLottery()
   },
   getLottery: function() {
     var that = this
-    var awardIndex = Math.random() * 7 >>> 0;
+    var awardIndex = Math.random() * 6 >>> 0;
 
     // 获取奖品配置
     var awardsConfig = app.awardsConfig,
       runNum = 8
-    // if (awardIndex < 2) awardsConfig.chance = false
     console.log(awardIndex)
 
     // 初始化 rotate
@@ -187,10 +220,9 @@ Page({
     }
   },
   onLoad() {
-    console.log(app.globalData.hasAuth)
+    this.getInfo()
   },
   onReady: function(e) {
-    console.log(app.globalData.hasAuth)
     var that = this;
     // app.getUserInfo(function(a) {console.log(a)})
     // getAwardsConfig
@@ -227,10 +259,15 @@ Page({
 
     // wx.setStorageSync('awardsConfig', JSON.stringify(awardsConfig))
 
-
     // 绘制转盘
-    var awardsConfig = app.awardsConfig.awards,
-      len = awardsConfig.length,
+    var awardsConfig = app.awardsConfig.awards
+
+  },
+  setCanvasData(awardsConfig) {
+    debugger
+    const that = this
+    awardsConfig.unshift({level:0,name: '谢谢参与',detail: '谢谢参与'})
+    let len = awardsConfig.length,
       rotateDeg = 360 / len / 2 + 90,
       html = [],
       turnNum = 1 / len // 文字旋转 turn 值
@@ -273,19 +310,13 @@ Page({
       html.push({
         turn: i * turnNum + 'turn',
         lineTurn: i * turnNum + turnNum / 2 + 'turn',
-        award: awardsConfig[i].name
+        award: awardsConfig[i].name,
+        detail: awardsConfig[i].detail
       });
     }
     that.setData({
       awardsList: html
     });
-
-    // 对 canvas 支持度太差，换种方式实现
-    /*wx.drawCanvas({
-      canvasId: 'lotteryCanvas',
-      actions: ctx.getActions()
-    })*/
-
   }
 
 })

@@ -6,6 +6,9 @@ Page({
    */
   data: {
     showResult: false,
+    detail: {
+      text:123
+    }
   },
   copy() {
     wx.setClipboardData({

@@ -5,7 +5,7 @@
       <view class="modal-title">录入信息</view>
       <view class="modal-content">
         <view class="modal-input">
-          <input placeholder-class="input-holder" type="number" maxlength="10" bindinput="inputInvoice" focus='true' class="input" placeholder="请输入抽奖码"></input>
+          <input placeholder-class="input-holder" bindinput="inputInvoice" focus='true' class="input" placeholder="请输入抽奖码"></input>
         </view>
         <view class="modal-input" style='margin-top: 10rpx'>
           <input placeholder-class="input-holder" type="number" maxlength="11" bindinput="inputTel" class="input" placeholder="请输入预留手机号"></input>
@@ -34,6 +34,7 @@
             <view class="canvas-item" style='' wx:for="{{awardsList}}" wx:key="unique">
 
               <view class="canvas-item-text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})">{{item.award}}</view>
+              <view class="canvas-item-text text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})">{{item.detail}}</view>
               <!-- <image class="bgImg" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4088560319,3173946946&fm=58"></image> -->
             </view>
           </view>
