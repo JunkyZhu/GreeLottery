@@ -14,6 +14,7 @@ Page({
     showRules: false,
     showLose: false,
     showSuccess: false,
+    result: {},
     obj: {},
     awards: []
   },
@@ -40,15 +41,22 @@ Page({
     }
   },
   getActivity(id) {
+    const that = this
     getActivities({ activityId: id}).then(val => {
-      this.setData({
+      if(val == 'Unauthorized') {
+        wx.clearStorage()
+        that.getInfo()
+      }
+      that.setData({
         obj: val
       })
+      console.log(that)
+      console.log(that.data)
       wx.setNavigationBarTitle({
-        title: this.data.obj.remark + this.data.obj.name
+        title: that.data.obj.name
       })
-      this.setCanvasData(this.data.obj.prizeVos)
-      this.getAwards(this.data.obj.id)
+      that.setCanvasData(that.data.obj.prizeVos)
+      that.getAwards(that.data.obj.id)
     })
   },
   close() {
@@ -108,7 +116,7 @@ Page({
         icon: 'none',
         duration: 1000
       })
-    } else{
+    } else {
       this.draw()
     }
   },
@@ -117,13 +125,33 @@ Page({
       code: this.data.invoice,
       mobile: this.data.tel
     }).then(val => {
-      this.close()
-      this.getLottery()
+      if(val.error) {
+        wx.showToast({
+          title: val.message,
+          icon: 'none'
+        })
+      } else {
+        this.setData({
+          result: val
+        })
+        this.getAwards(this.data.obj.id)
+        this.close()
+        this.getLottery(this.findAward(val.prizeLevel))
+      }
     })
   },
-  getLottery: function() {
+  findAward(level) {
+    let index = 0
+    this.data.awardsList.forEach((item,idx) => {
+      if (item.level === level) {
+        index = idx
+      }
+    })
+    return index
+  },
+  getLottery: function(index) {
     var that = this
-    var awardIndex = Math.random() * 6 >>> 0;
+    var awardIndex = index
 
     // 获取奖品配置
     var awardsConfig = app.awardsConfig,
@@ -158,13 +186,13 @@ Page({
       animationData: animationRun.export(),
       btnDisabled: 'disabled'
     })
-    debugger
-    // 记录奖品
-    var winAwards = wx.getStorageSync('winAwards') || {
-      data: []
-    }
-    winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
-    wx.setStorageSync('winAwards', winAwards)
+    // debugger
+    // // 记录奖品
+    // var winAwards = wx.getStorageSync('winAwards') || {
+    //   data: []
+    // }
+    // winAwards.data.push(awardsConfig.awards[awardIndex].name + '1个')
+    // wx.setStorageSync('winAwards', winAwards)
 
     // 中奖提示
     setTimeout(function() {
@@ -201,15 +229,19 @@ Page({
       }
     })*/
   },
-  godetail() {
+  godetail(e) {
+    let result = this.data.result
+    if (e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.result) {
+      result = e.currentTarget.dataset.result
+    }
     this.close()
+    wx.setStorageSync('detail', result)
     wx.navigateTo({
-      url: '/pages/detail/detail',
+      url: `/pages/detail/detail?id=${result.id}`,
     })
   },
   showResult(idx) {
-    debugger
-    if (idx <= 1) {
+    if (idx >= 1) {
       this.setData({
         showSuccess: true
       })
@@ -264,7 +296,6 @@ Page({
 
   },
   setCanvasData(awardsConfig) {
-    debugger
     const that = this
     awardsConfig.unshift({level:0,name: '谢谢参与',detail: '谢谢参与'})
     let len = awardsConfig.length,
@@ -311,7 +342,8 @@ Page({
         turn: i * turnNum + 'turn',
         lineTurn: i * turnNum + turnNum / 2 + 'turn',
         award: awardsConfig[i].name,
-        detail: awardsConfig[i].detail
+        detail: awardsConfig[i].detail,
+        level: awardsConfig[i].level
       });
     }
     that.setData({

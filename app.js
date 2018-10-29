@@ -21,10 +21,10 @@ App({
               type: 1
             }
           }).then(val => {
-            if (val.data.token) {
-              that.setToken(val.data.token)
+            if (val.token) {
+              that.setToken(val.token)
             }
-            cb && cb(val.data.token)
+            cb && cb(val.token)
           })
         }
       }

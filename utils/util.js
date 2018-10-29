@@ -25,7 +25,7 @@ function request({url,type,data,method='Post',urlData={}}) {
   let urlParams = json2url(urlData)
   let token = wx.getStorageSync('token')
   let header = {}
-  let requsetUrl = 'http://116.62.214.34:8080' + url
+  let requsetUrl = 'https://www.amazing-site.com/gree-api/' + url
   if(token && token != null) {
     header.token = token
   }

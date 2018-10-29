@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -45,9 +45,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 1,
 					"name": "detail",
-					"pathName": "pages/detail/detail"
+					"pathName": "pages/detail/detail",
+					"query": "id=753"
 				}
 			]
 		}

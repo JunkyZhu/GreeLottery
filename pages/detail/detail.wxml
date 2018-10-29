@@ -1,43 +1,67 @@
 <!--pages/detail.wxml-->
 <view>
 	<view class="header">
-		<view class="title">格力空调一个</view>
-		<view class="expired">兑奖期限：2018.10.21 - 2018.10.28</view>
-		<text class="setAddr">填写寄送地址</text>
+		<view class="title">{{detail.prizeDetail}}</view>
+		<view class="expired" wx:if="{{detail.prizeEndTime}}">兑奖期限：{{detail.prizeStartTime}} - {{detail.prizeEndTime}}</view>
+		<text class="setAddr" wx:if="{{detail.status !== 'CHECKED'}}" bindtap="showAddrDialog">填写寄送地址</text>
     <image class='bg' src="../../image/kqbd.png"></image>
 	</view>
 	<view class="code">
-		<view>兑奖码：8888888 <text bindtap="copy" class="copy">复制券码</text></view>
+		<view>兑奖码：{{detail.uuid}} <text bindtap="copy" class="copy">复制券码</text></view>
 		<view class="tips">凭兑奖码联系工作人员兑奖</view>
 	</view>
 	<view class="line"></view>
 	<view class="detail">
 		<view class="cardDetail">兑奖券详情</view>
 		<view>
-			<view class="item">
+			<view class="item" wx:if="{{detail.prizeEndTime}}">
 				<view class="label">有效日期</view>
-				<view>2018-10-21至2018-10-28</view>
+				<view>{{detail.prizeStartTime}}至{{detail.prizeEndTime}}</view>
 			</view>
 			<view class="item">
 				<view class="label">姓名</view>
-				<view>xxxxxx</view>
+				<view>{{detail.linkman || '-'}}</view>
+			</view>
+      <view class="item">
+				<view class="label">手机号</view>
+				<view>{{detail.linktel || '-'}}</view>
 			</view>
 			<view class="item">
 				<view class="label">收货地址</view>
-				<view>上海市闵行区啥啥啥地方啥啥啥7号楼五楼</view>
+				<view>{{detail.adress || '-'}}</view>
 			</view>			
 		</view>
 	</view>
 	<view class="line"></view>
 	<view class="btn">
-		<button class="btnDetail" bindtap="getCode">立即兑奖</button>
+		<button class="btnDetail" bindtap="getCode" disabled="{{detail.status === 'CHECKED'}}">{{detail.status !== 'CHECKED' ? '立即兑奖' : '已兑奖'}}</button>
 	</view>
   <view class='modal-mask' wx:if="{{showResult}}" bindtap='close'>
     <view class='center result' catchtap='catch'>
       <view>请联系核销员扫码核销</view>
-      <image style='width: 360rpx;height:360rpx;' src="http://qr.liantu.com/api.php?text={{detail.text}}"></image>
-      <view style='margin-top: 20rpx'>37917505</view>
+      <image style='width: 360rpx;height:360rpx;' src="http://qr.liantu.com/api.php?text={{detail.uuid}}"></image>
+      <view style='margin-top: 20rpx'>{{detail.uuid}}</view>
       <view>凭券联系现场工作人员兑奖</view>
     </view>
   </view>
 </view>
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showAddr}}" bindtap='close'></view>
+    <view class="modal-dialog" wx:if="{{showAddr}}">
+      <view class="modal-title">地址信息</view>
+      <view class="modal-content">
+        <view class="modal-input">
+          <input placeholder-class="input-holder" value="{{detail.linkman}}" bindinput="inputName" focus='true' class="input" placeholder="请输入姓名"></input>
+        </view>
+        <view class="modal-input" style='margin-top: 10rpx'>
+          <input placeholder-class="input-holder" value="{{detail.linktel}}" bindinput="inputTel" type="number" maxlength="11" class="input" placeholder="请输入手机"></input>
+        </view>
+        <view class="modal-input" style='margin-top: 10rpx'>
+          <textarea placeholder-class="input-holder" value="{{detail.adress}}" bindinput="inputAddr" class="input" placeholder="请输入收货地址"></textarea>
+        </view>
+        
+      </view>
+      <view class="modal-footer">
+        <view class="btn-cancel" bindtap="close" data-status="cancel">取消</view>
+        <view class="btn-confirm" bindtap="confirm" data-status="confirm">确定</view>
+      </view>
+    </view>

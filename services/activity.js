@@ -13,9 +13,22 @@ export function getAwardsList(params) {
   })
 }
 export function draw(id,param) {
-  debugger
   return request({
     url: `/activities/${id}/dealer_draw`,
     data: param
+  })
+}
+export function editAddr(id, param) {
+  return request({
+    url: `/tickets/${id}/delivery_info`,
+    data: param,
+    method: 'Put'
+  })
+}
+
+export function getDetail(param) {
+  return request({
+    url: `/tickets/my_winning/${param}`,
+    method: 'Get',
   })
 }

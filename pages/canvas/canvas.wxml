@@ -5,7 +5,7 @@
       <view class="modal-title">录入信息</view>
       <view class="modal-content">
         <view class="modal-input">
-          <input placeholder-class="input-holder" bindinput="inputInvoice" focus='true' class="input" placeholder="请输入抽奖码"></input>
+          <input placeholder-class="input-holder" confirm-type="next" bindinput="inputInvoice" focus='true' class="input" placeholder="请输入抽奖码"></input>
         </view>
         <view class="modal-input" style='margin-top: 10rpx'>
           <input placeholder-class="input-holder" type="number" maxlength="11" bindinput="inputTel" class="input" placeholder="请输入预留手机号"></input>
@@ -53,7 +53,7 @@
     <view class='btn' bindtap="showPrize">中奖纪录</view>
     <view class='btn' bindtap="showRules">活动规则</view>
   </view>
-  <view class='modal-mask' wx:if="{{showLose}}"  bindtap='close'>
+  <view class='modal-mask' wx:if="{{showLose}}" bindtap='close'>
     <button class="iknow">我知道了</button>
     <image class='noresult' src="https://hdg.faisys.com/image/xydzp/xydzpFailImg.png"></image>
   </view>
@@ -61,7 +61,7 @@
 
     <view class='center prizeDetail' style='z-index: 1500'>
       <image class="prizeImg " src="https://hdg.faisys.com/image/xydzp/theGift.png?v=201802231034"></image>
-      <text class='prizeDesc'>一等奖： 微波炉</text>
+      <text class='prizeDesc'>{{result.prizeName}}： {{result.prizeDetail}}</text>
       <button class="detailBtn" bindtap="godetail">查看详情</button>
     </view>
 
@@ -72,14 +72,14 @@
       <image style="width: 660rpx; height: 90rpx;margin-bottom: 20rpx;" src="https://hdg.faisys.com/image/xydzp/myAwardImg.png">
 
       </image>
-      <view class="prizeItem">
-        <text>一等奖: 一个微波炉你懂的</text>
-        <text class="detail" bindtap="godetail">查看详情</text>
+      <view style='text-align: center' wx:if="{{awards.length == 0}}">暂无中奖纪录哦~</view>
+      <view wx:else>
+        <view class="prizeItem" wx:for="{{awards}}">
+          <text>{{item.prizeName}}: {{item.prizeDetail}}</text>
+          <text class="detail" data-result="{{item}}" bindtap="godetail">查看详情</text>
+        </view>
       </view>
-      <view class="prizeItem">
-        <text>一等奖: 一个微波炉你懂的</text>
-        <text class="detail" bindtap="godetail">查看详情</text>
-      </view>
+
     </view>
   </view>
   <view class='modal-mask' wx:if="{{showRules}}" bindtap='close'>
@@ -87,12 +87,8 @@
       <image style="width: 660rpx; height: 90rpx;margin-bottom: 20rpx;" src="https://hdg.faisys.com/image/xydzp/activeRuleImg.png">
 
       </image>
-      <text class="rules"> 
-        1.活动奖品： 
-          123123
-          546456
-        2. 活动简介： 
-          时5啊打发
+      <text class="rules" style='margin: -20rpx 0'> 
+        {{obj.remark}}
       </text>
     </view>
   </view>
