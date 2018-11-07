@@ -1,0 +1,9 @@
+/**app.wxss**/
+.container {
+  height: 100%;
+  box-sizing: border-box;
+} 
+.flex {
+  display: flex;
+  align-items: center
+}

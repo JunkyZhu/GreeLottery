@@ -4,17 +4,16 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true,
-		"uglifyFileName": true
+		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.3.0",
-	"appid": "wxe12276d229a4fdb4",
-	"projectname": "%E6%A0%BC%E5%8A%9B%E6%8A%BD%E5%A5%96",
+	"libVersion": "2.3.1",
+	"appid": "wxcdc5fcdaf8d78512",
+	"projectname": "gree_backend",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -37,19 +36,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": -1,
-					"name": "canvas",
-					"pathName": "pages/canvas/canvas",
-					"query": ""
-				},
-				{
-					"id": 1,
-					"name": "detail",
-					"pathName": "pages/detail/detail",
-					"query": "id=753"
+					"name": "logs",
+					"pathName": "pages/logs/logs"
 				}
 			]
 		}

@@ -1,5 +1,5 @@
 import {request} from '../../utils/util.js'
-import { getActivities, getAwardsList, draw} from '../../services/activity.js'
+import { getActivities, getAwardsList, draw, getDrawCount, exchangeDraw} from '../../services/activity.js'
 var app = getApp()
 Page({
   data: {
@@ -16,13 +16,23 @@ Page({
     showSuccess: false,
     result: {},
     obj: {},
-    awards: []
+    awards: [],
+    count: 0
   },
   onShareAppMessage() {
     return {
-      title: '抽奖',
+      title: this.data.obj.name,
       path: 'pages/canvas/canvas'
     }
+  },
+  getDrawCount(id) {
+    getDrawCount({
+      activityId: this.data.obj.id
+    }).then(val => {
+      this.setData({
+        count: val
+      })
+    })
   },
   getAwards() {
     getAwardsList().then(val => {
@@ -50,8 +60,8 @@ Page({
       that.setData({
         obj: val
       })
-      console.log(that)
-      console.log(that.data)
+      that.getDrawCount(that.data.obj.id)
+     
       wx.setNavigationBarTitle({
         title: that.data.obj.name
       })
@@ -96,9 +106,13 @@ Page({
     })
   },
   showModal() {
-    this.setData({
-      showModal: true
-    })
+    if (!this.data.btnDisabled && this.data.count == 0) {
+      this.setData({
+        showModal: true
+      })
+    } else {
+      this.draw()
+    }
   },
   onCancel() {
     this.close()
@@ -106,7 +120,7 @@ Page({
   onConfirm(e) {
     if (this.data.invoice == ''){
       wx.showToast({
-        title: '请输入发票号',
+        title: '请输入抽奖码',
         icon: 'none',
         duration: 1000
       })
@@ -117,10 +131,30 @@ Page({
         duration: 1000
       })
     } else {
-      this.draw()
+      this.exchangeDraw()
     }
   },
+  exchangeDraw() {
+    exchangeDraw(this.data.obj.id, {
+      code: this.data.invoice,
+      mobile: this.data.tel
+    }).then(val => {
+      if (val.error) {
+        wx.showToast({
+          title: val.message,
+          icon: 'none'
+        })
+      } else {
+        this.close()
+        this.getDrawCount()
+        // this.draw()
+      }
+    })
+  },
   draw() {
+    if (this.data.btnDisabled) {
+      return 
+    }
     draw(this.data.obj.id, {
       code: this.data.invoice,
       mobile: this.data.tel
@@ -131,6 +165,7 @@ Page({
           icon: 'none'
         })
       } else {
+        this.getDrawCount()
         this.setData({
           result: val
         })
@@ -155,7 +190,7 @@ Page({
 
     // 获取奖品配置
     var awardsConfig = app.awardsConfig,
-      runNum = 8
+      runNum = 3
     console.log(awardIndex)
 
     // 初始化 rotate
@@ -172,7 +207,6 @@ Page({
     // 旋转抽奖
     app.runDegs = app.runDegs || 0
     console.log('deg', app.runDegs)
-    debugger
     app.runDegs = app.runDegs + (360 - app.runDegs % 360) + (360 * runNum - awardIndex * (360 / app.awardsConfig.awards.length))
     console.log('deg', app.runDegs)
 
@@ -343,7 +377,8 @@ Page({
         lineTurn: i * turnNum + turnNum / 2 + 'turn',
         award: awardsConfig[i].name,
         detail: awardsConfig[i].detail,
-        level: awardsConfig[i].level
+        level: awardsConfig[i].level,
+        imgUrl: awardsConfig[i].imgUrl
       });
     }
     that.setData({

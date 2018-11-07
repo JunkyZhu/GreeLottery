@@ -42,11 +42,13 @@ page {
 	font-size: 32rpx;
 	color: #fff;
 	border-radius: 20rpx;
+  
 }
 .tips {
-	color: #333;
-	font-size: 32rpx;
+	color: rgb(95, 95, 95);
+	font-size: 28rpx;
 	margin-top: 10rpx;
+  padding: 0 20rpx;
 }
 .line {
 	width: 100%;

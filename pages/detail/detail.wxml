@@ -2,22 +2,22 @@
 <view>
 	<view class="header">
 		<view class="title">{{detail.prizeDetail}}</view>
-		<view class="expired" wx:if="{{detail.prizeEndTime}}">兑奖期限：{{detail.prizeStartTime}} - {{detail.prizeEndTime}}</view>
+		<view class="expired" wx:if="{{detail.prizeEndTime}}">兑奖期限：{{detail.prizeStartTime}} 至 {{detail.prizeEndTime}}</view>
 		<text class="setAddr" wx:if="{{detail.status !== 'CHECKED'}}" bindtap="showAddrDialog">填写寄送地址</text>
     <image class='bg' src="../../image/kqbd.png"></image>
 	</view>
 	<view class="code">
-		<view>兑奖码：{{detail.uuid}} <text bindtap="copy" class="copy">复制券码</text></view>
-		<view class="tips">凭兑奖码联系工作人员兑奖</view>
+    
+		
+    
+		<view class="tips" style='text-align: left'>{{detail.prizeRemark}}</view>
+    <view style='margin: 20rpx'>{{detail.uuid}} </view>
+    <view style='margin-bottom: 10rpx'><text bindtap="copy" class="copy">复制券码</text></view>
 	</view>
 	<view class="line"></view>
 	<view class="detail">
 		<view class="cardDetail">兑奖券详情</view>
 		<view>
-			<view class="item" wx:if="{{detail.prizeEndTime}}">
-				<view class="label">有效日期</view>
-				<view>{{detail.prizeStartTime}}至{{detail.prizeEndTime}}</view>
-			</view>
 			<view class="item">
 				<view class="label">姓名</view>
 				<view>{{detail.linkman || '-'}}</view>
@@ -28,8 +28,11 @@
 			</view>
 			<view class="item">
 				<view class="label">收货地址</view>
-				<view>{{detail.adress || '-'}}</view>
-			</view>			
+				<view>{{detail.address || '-'}}</view>
+			</view>
+      <!-- <view class='item'>
+        <image src="{{detail.prizeImgUrl}}"></image>
+      </view>	 -->
 		</view>
 	</view>
 	<view class="line"></view>
@@ -56,7 +59,7 @@
           <input placeholder-class="input-holder" value="{{detail.linktel}}" bindinput="inputTel" type="number" maxlength="11" class="input" placeholder="请输入手机"></input>
         </view>
         <view class="modal-input" style='margin-top: 10rpx'>
-          <textarea placeholder-class="input-holder" value="{{detail.adress}}" bindinput="inputAddr" class="input" placeholder="请输入收货地址"></textarea>
+          <textarea placeholder-class="input-holder" value="{{detail.address}}" bindinput="inputAddr" class="input" placeholder="请输入收货地址"></textarea>
         </view>
         
       </view>

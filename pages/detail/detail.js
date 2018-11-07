@@ -8,7 +8,7 @@ Page({
   data: {
     showResult: false,
     showAddr: false,
-    adress: '',
+    address: '',
     linkman: '',
     linktel: '',
     detail: {
@@ -39,7 +39,7 @@ Page({
     getDetail(id).then(val => {
       this.setData({
         detail: val,
-        adress: val.adress,
+        address: val.address,
         linkman: val.linkman,
         linktel: val.linktel,
       })
@@ -64,7 +64,7 @@ Page({
   },
   confirm() {
     editAddr(this.data.detail.id, {
-      "adress": this.data.adress,
+      "address": this.data.address,
       "linkman": this.data.linkman,
       "linktel": this.data.linktel
     }).then(val => {
@@ -103,7 +103,7 @@ Page({
   },
   inputAddr(e) {
     this.setData({
-      adress: e.detail.value
+      address: e.detail.value
     })
   },
   /**

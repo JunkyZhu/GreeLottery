@@ -6,7 +6,7 @@ page {
 }
 
 .header{
-	padding: 2rem 0;
+	padding-top: 1rem;
 	text-align: center;
 }
 .header-title{
@@ -50,6 +50,7 @@ page {
   background-clip: padding-box;
   background-color: #ffcb3f;
 }
+.canvas-content:nth-child(odd) {}
 .canvas-element{
   position: relative;
   z-index: 1;
@@ -74,6 +75,11 @@ page {
   color: #e4370e;
   font-weight: bold;
   text-shadow: 0 1px 1px rgba(255,255,255,.6);
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 .canvas-item-text{
   position: relative;
@@ -86,8 +92,8 @@ page {
   transform-origin: 50% 140px;
 }
 .canvas-item-text.text {
-  -webkit-transform-origin: 50% 100px; 
-  transform-origin: 50% 100px;
+  -webkit-transform-origin: 50% 105px; 
+  transform-origin: 50% 105px;
   padding-top: 0;
   font-size: 24rpx
 }
@@ -124,7 +130,7 @@ page {
 
 
 .canvas-btn{
-  position: absolute;
+  /* position: absolute;
   left: 100px;
   top: 100px;
   z-index: 400;
@@ -138,9 +144,13 @@ page {
   font-size: 20px;
   text-shadow: 0 -1px 1px rgba(0,0,0,.6);
   box-shadow: 0 3px 5px rgba(0,0,0,.6);
-  text-decoration: none;
+  text-decoration: none; */
+  position: absolute;
+  left: 84px;
+  top: 63px;
+  z-index: 400;
 }
-.canvas-btn::after{
+/* .canvas-btn::after{
   position: absolute;
   display: block;
   content: ' ';
@@ -153,7 +163,7 @@ page {
   border-style: solid;
   border-color: transparent;
   border-bottom-color: #E44025; 
-}
+} */
 .canvas-btn.disabled{
     pointer-events: none;
     background: #B07A7B;
@@ -274,10 +284,10 @@ input-holder {
 }
 .turnBg {
   position:absolute;
-  width: 320px;
-  height: 320px;
-  left: -20px;
-  top: -20px;
+  width: 327px;
+  height: 327px;
+  left: -24px;
+  top: -24px;
   animation: rotate 7s linear both reverse infinite
 }
 .btns {
@@ -287,8 +297,8 @@ input-holder {
   background: #fe8c2d;
   border-radius: 10rpx;
   color: #fff;
-  font-size: 32rpx;
-  padding: 10rpx 20rpx;
+  font-size: 38rpx;
+  padding: 10rpx 30rpx;
 }
 .btns .btn + .btn {
   margin-left: 80rpx;
@@ -343,8 +353,8 @@ input-holder {
   border-bottom: 2rpx solid rgba(255,255,255,.4)
 }
 .rules {
-  white-space: pre;
-word-wrap: break-word;
+  /* white-space: pre;
+word-wrap: break-word; */
 font-size: 28rpx;
 }
 .ok {
