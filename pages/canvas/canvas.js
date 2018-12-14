@@ -9,6 +9,10 @@ Page({
     showModal: false,
     invoice: '',
     tel: '',
+    page: {
+      page: 1,
+      size: 10
+    },
     showResult: true,
     showPrize: false,
     showRules: false,
@@ -17,7 +21,8 @@ Page({
     result: {},
     obj: {},
     awards: [],
-    count: 0
+    count: 0,
+    scene: null
   },
   onShareAppMessage() {
     return {
@@ -34,11 +39,49 @@ Page({
       })
     })
   },
-  getAwards() {
-    getAwardsList().then(val => {
+  scroll() {
+    if(!this.data.last && !this.data.loading) {
+      let page = ++this.data.page.page
       this.setData({
-        awards: val
+        "page.page": page
       })
+      this.getAwards()
+    }
+  },
+  getAwards(reset) {
+    if(reset) {
+      this.setData({
+        page: {
+          page: 1,
+          size: 10
+        },
+        awards: []
+      })
+    }
+    this.setData({
+      loading: true
+    })
+    let obj = {
+      activityId: this.data.obj.id,
+      ...this.data.page
+    }
+    getAwardsList(obj).then(val => {
+      let list = this.data.awards.concat(val.content)
+      if(!val.last) {
+        
+        this.setData({
+          awards: list,
+          last: val.last,
+          loading: false
+        })
+      } else {
+        this.setData({
+          awards: list,
+          last: true,
+          loading: false
+        })
+      }
+      
     })
   },
   getInfo() {
@@ -52,10 +95,18 @@ Page({
   },
   getActivity(id) {
     const that = this
+    if(this.data.scene) {
+      id = this.data.scene
+    }
     getActivities({ activityId: id}).then(val => {
       if(val == 'Unauthorized') {
         wx.clearStorage()
         that.getInfo()
+      } else if(val.error) {
+        wx.showToast({
+          title: val.message,
+          icon: 'none'
+        })
       }
       that.setData({
         obj: val
@@ -66,7 +117,7 @@ Page({
         title: that.data.obj.name
       })
       that.setCanvasData(that.data.obj.prizeVos)
-      that.getAwards(that.data.obj.id)
+      that.getAwards()
     })
   },
   close() {
@@ -106,7 +157,13 @@ Page({
     })
   },
   showModal() {
-    if (!this.data.btnDisabled && this.data.count == 0) {
+    if(this.data.scene) {
+      wx.showModal({
+        title: '提示',
+        content: '您当前在预览模式下,不能操作哦!',
+        showCancel: false
+      })
+    }else if (!this.data.btnDisabled && this.data.count == 0) {
       this.setData({
         showModal: true
       })
@@ -169,7 +226,7 @@ Page({
         this.setData({
           result: val
         })
-        this.getAwards(this.data.obj.id)
+        this.getAwards('reset')
         this.close()
         this.getLottery(this.findAward(val.prizeLevel))
       }
@@ -187,9 +244,9 @@ Page({
   getLottery: function(index) {
     var that = this
     var awardIndex = index
-
+    debugger
     // 获取奖品配置
-    var awardsConfig = app.awardsConfig,
+    var awardsConfig = that.data.awardsList,
       runNum = 3
     console.log(awardIndex)
 
@@ -207,7 +264,7 @@ Page({
     // 旋转抽奖
     app.runDegs = app.runDegs || 0
     console.log('deg', app.runDegs)
-    app.runDegs = app.runDegs + (360 - app.runDegs % 360) + (360 * runNum - awardIndex * (360 / app.awardsConfig.awards.length))
+    app.runDegs = app.runDegs + (360 - app.runDegs % 360) + (360 * runNum - awardIndex * (360 / awardsConfig.length))
     console.log('deg', app.runDegs)
 
     var animationRun = wx.createAnimation({
@@ -236,11 +293,11 @@ Page({
       //   content: '获得' + (awardsConfig.awards[awardIndex].name),
       //   showCancel: false
       // })
-      if (awardsConfig.chance) {
+      
         that.setData({
           btnDisabled: ''
         })
-      }
+      
     }, 4000);
 
 
@@ -285,7 +342,13 @@ Page({
       })
     }
   },
-  onLoad() {
+  onLoad(options) {
+    let scene = options.scene
+    if(scene) {
+      this.setData({
+        scene: options.scene
+      })
+    }
     this.getInfo()
   },
   onReady: function(e) {

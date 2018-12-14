@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/canvas/canvas",
-    "pages/logs/logs",
     "pages/authorize/index",
     "pages/detail/detail"
   ],

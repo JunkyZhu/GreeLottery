@@ -1,14 +1,19 @@
 import {request} from '../utils/util.js'
-export function getActivities() {
+export function getActivities(param) {
+  let url = '/activities?type=1'
+  if (param.activityId) {
+    url = `/activities/${param.activityId} /preview`
+  }
   return request({
-    url: '/activities?type=1',
-    method:"Get"
+    url: url,
+    method:"Get",
+    
   })
 }
-export function getAwardsList(params) {
+export function getAwardsList(param) {
   return request({
-    url: '/tickets/my_winning?activityId=1',
-    urlData: params,
+    url: '/tickets/my_winning_page',
+    urlData: param,
     method: 'Get'
   })
 }

@@ -1,4 +1,4 @@
-<view style="background: url({{obj.backgroundUrl}}) center center no-repeat; width: 100%;height: 100%;background-size:cover;overflow-x:hidden">
+<view wx:if="{{obj.id}}" style="background: url({{obj.backgroundUrl}}) center center no-repeat; width: 100%;height: 100%;background-size:cover;overflow-x:hidden">
   <view class="wrapper" style="">
     <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}" bindtap='close'></view>
     <view class="modal-dialog" wx:if="{{showModal}}" style='margin-top: 20%; top: 0'>
@@ -34,9 +34,9 @@
             <view class="canvas-item" style='' wx:for="{{awardsList}}" wx:key="unique">
 
               <view class="canvas-item-text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})">{{item.award}}</view>
-              <image class="canvas-item-text text"  style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}});width: 100rpx;height: 100rpx" src="{{item.imgUrl}}" wx:if="{{item.imgUrl}}"></image>
+              <image class="canvas-item-text text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}});width: 100rpx;height: 100rpx" src="{{item.imgUrl}}" wx:if="{{item.imgUrl}}"></image>
               <view class="canvas-item-text text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})" wx:else>{{item.detail}}</view>
-              
+
             </view>
           </view>
 
@@ -75,10 +75,13 @@
       </image>
       <view style='text-align: center' wx:if="{{awards.length == 0}}">暂无中奖纪录哦~</view>
       <view wx:else>
-        <view class="prizeItem" wx:for="{{awards}}">
-          <text>{{item.prizeName}}: {{item.prizeDetail}}</text>
-          <text class="detail" data-result="{{item}}" bindtap="godetail">查看详情</text>
-        </view>
+        <scroll-view scroll-y="true" bindscrolltolower="scroll" enable-back-to-top style='height:200px'>
+          <view class="prizeItem" wx:for="{{awards}}">
+            <text>{{item.prizeName}}: {{item.prizeDetail}}</text>
+            <text class="detail" data-result="{{item}}" bindtap="godetail">查看详情</text>
+          </view>
+        </scroll-view>
+
       </view>
 
     </view>
@@ -93,4 +96,7 @@
       </text>
     </view>
   </view>
+</view>
+<view wx:else style='text-align:center;margin: 60rpx auto'>
+  暂无进行中的活动...
 </view>
